@@ -21,3 +21,7 @@ Resources:
 Storage: "1Gi"
 StorageClass: "anything"
 ClusterDomain: "cluster.local"
+NetworkPolicy:
+  Enabled: false
+  ApiVersion: "extensions/v1beta1"
+  AllowExternal: true
