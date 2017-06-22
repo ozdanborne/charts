@@ -1,0 +1,28 @@
+{{- if .Values.NetworkPolicy.Enabled }}
+kind: NetworkPolicy
+apiVersion: {{ .Values.NetworkPolicy.ApiVersion }}
+metadata:
+  name: "{{ printf "zk-%s" .Release.Name | trunc 24 }}"
+spec:
+  podSelector:
+    matchLabels:
+      component: "{{ printf "zk-%s" .Release.Name  | trunc 24 }}"
+  ingress:
+    # Allow leader election
+    - ports:
+      - port: {{ .Values.LeaderElectionPort }}
+        port: {{ .Values.ServerPort }}
+      from:
+      - podSelector:
+          matchLabels:
+            component: "{{ printf "zk-%s" .Release.Name  | trunc 24 }}"
+    # Allow client connections
+    - ports:
+      - port: {{ .Values.ClientPort }}
+      {{- if not .Values.NetworkPolicy.AllowExternal }}
+      from:
+        - podSelector:
+            matchLabels:
+              {{ printf "zk-%s-client" .Release.Name  | trunc 24 }}: "true"
+      {{- end }}
+{{- end }}
