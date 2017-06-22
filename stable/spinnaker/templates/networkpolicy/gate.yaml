@@ -1,0 +1,23 @@
+apiVersion: {{ template "networkPolicy.apiVersion" . }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-gate
+  labels:
+    app: {{ template "fullname" . }}
+    component: gate
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: gate
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: deck
+    # - podSelector:
+    #     matchLabels:
+    #       - api client label maybe?
+    ports:
+      - port: 8084

@@ -16,6 +16,7 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmap/spinnaker-config.yaml") . | sha256sum }}
       labels:
         app: {{ template "fullname" . }}
+        {{.Release.Name}}-minio-client: "true"
         component: front50
     spec:
       containers:

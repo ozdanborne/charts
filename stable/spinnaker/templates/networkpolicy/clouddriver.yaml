@@ -1,0 +1,24 @@
+apiVersion: {{ template "networkPolicy.apiVersion" . }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-clouddriver
+  labels:
+    app: {{ template "fullname" . }}
+    component: clouddriver
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: clouddriver
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: gate
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: orca
+    ports:
+    - port: 7002

@@ -1,0 +1,24 @@
+apiVersion: {{ template "networkPolicy.apiVersion" . }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-orca
+  labels:
+    app: {{ template "fullname" . }}
+    component: orca
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: orca
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: echo
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: gate
+    ports:
+    - port: 8083

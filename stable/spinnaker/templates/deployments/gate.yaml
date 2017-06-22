@@ -17,6 +17,7 @@ spec:
       labels:
         app: {{ template "fullname" . }}
         component: gate
+        {{.Release.Name }}-redis-client: "true"
     spec:
       containers:
         - image: {{ .Values.images.gate }}
@@ -36,3 +37,4 @@ spec:
         - name: {{ template "fullname" . }}-spinnaker-config
           configMap:
             name: {{ template "fullname" . }}-spinnaker-config
+
