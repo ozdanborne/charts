@@ -1,0 +1,12 @@
+apiVersion: {{ .Values.networkPolicy.apiVersion }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-deck
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: deck
+  ingress:
+  - ports:
+    - port: 9000

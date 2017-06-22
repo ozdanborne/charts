@@ -1,0 +1,17 @@
+apiVersion: {{ .Values.networkPolicy.apiVersion }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-rosco
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: rosco
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: gate
+    ports:
+    - port: 8087

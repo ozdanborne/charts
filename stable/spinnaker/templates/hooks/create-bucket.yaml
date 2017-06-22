@@ -14,6 +14,7 @@ spec:
       labels:
         app: {{ template "fullname" . }}
         component: minio
+        {{.Release.Name}}-minio-client: "true"
     spec:
       restartPolicy: OnFailure
       containers:

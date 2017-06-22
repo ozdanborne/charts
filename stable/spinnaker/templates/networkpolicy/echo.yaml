@@ -1,0 +1,17 @@
+apiVersion: {{ .Values.networkPolicy.apiVersion }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-echo
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: echo
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: igor
+    ports:
+    - port: 8089

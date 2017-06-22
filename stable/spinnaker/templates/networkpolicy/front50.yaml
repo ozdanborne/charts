@@ -1,0 +1,25 @@
+apiVersion: {{ .Values.networkPolicy.apiVersion }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-front50
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: front50
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: orca
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: echo
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: gate
+    ports:
+    - port: 8080

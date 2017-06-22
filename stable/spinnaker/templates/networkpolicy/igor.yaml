@@ -1,0 +1,22 @@
+apiVersion: {{ .Values.networkPolicy.apiVersion }}
+kind: NetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}-igor
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      component: igor
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ template "fullname" . }}
+          component: jenkins
+    ports:
+    - port: 8080
+  - ports:
+    # Allow access to jenkins UI
+    - port: 8088
+    # Allow jenkins slaves to register
+    - port: 50000

@@ -17,6 +17,7 @@ spec:
       labels:
         app: {{ template "fullname" . }}
         component: orca
+        {{.Release.Name }}-redis-client: "true"
     spec:
       containers:
         - image: {{ .Values.images.orca }}

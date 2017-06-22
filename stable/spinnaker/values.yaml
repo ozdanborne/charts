@@ -70,6 +70,9 @@ resources:
 redis:
   redisPassword: password
 
+  networkPolicy:
+    enabled: false
+
 # Minio access/secret keys for the in-cluster S3 usage
 # Minio is not exposed publically
 minio:
@@ -107,3 +110,7 @@ jenkins:
     ImageTag: v0.2.0
     Cpu: "500m"
     Memory: "512Mi"
+
+networkPolicy:
+  enabled: false
+  apiVersion: extensions/v1beta1
