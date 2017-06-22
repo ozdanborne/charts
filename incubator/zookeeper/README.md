@@ -95,6 +95,31 @@ These parameters control the network ports on which the ensemble communicates.
 | `ClientPort` | The port on which the ZooKeeper servers listen for client requests. | `2181` |
 | `ClientCnxns` | The maximum number of simultaneous client connections that each server in the ensemble will allow. | `60` |
 
+## NetworkPolicy
+
+The following parameters configure NetworkPolicy for Zookeeper:
+
+| Parameter | Description | Default |
+| --------- | ----------- | ------- |
+| `NetworkPolicy.Enabled` | Enable creation of NetworkPolicy resources. | `false` |
+| `NetworkPolicy.AllowExternal` | Don't require client label for connections. | `true` |
+
+With NetworkPolicy enabled, Zookeeper pods will only accept cluster-election
+requests from other ZK pods in the same release. If `AllowExteranl` is `false`,
+Client requests will only be accepted from pods with the generated client label 
+(printed on a successful install).
+
+To enable network policy for Zookeeper,
+install [a networking plugin that implements the Kubernetes
+NetworkPolicy spec](https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy#before-you-begin),
+and set `NetworkPolicy.Enabled` to `true`.
+
+For Kubernetes v1.5 & v1.6, you must also turn on NetworkPolicy by setting
+the DefaultDeny namespace annotation.
+Note: this will enforce policy for _all_ pods in the namespace:
+
+    kubectl annotate namespace default "net.beta.kubernetes.io/network-policy={\"ingress\":{\"isolation\":\"DefaultDeny\"}}"
+
 ### Time
 ZooKeeper uses the Zab protocol to replicate its state machine across the ensemble. The following parameters control 
 the timeouts for the protocol.

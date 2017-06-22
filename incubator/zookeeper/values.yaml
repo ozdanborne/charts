@@ -27,3 +27,7 @@ ProbeInitialDelaySeconds : 15
 ProbeTimeoutSeconds : 5
 AntiAffinity : "hard"
 LogLevel : "INFO"
+NetworkPolicy:
+  Enabled: false
+  AllowExternal: true
+
