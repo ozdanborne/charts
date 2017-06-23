@@ -119,3 +119,7 @@ minioConfig:
     user: ""
     password: ""
     database: ""
+networkPolicy:
+  enabled: false
+  apiVersion: extensions/v1beta1
+  allowExternal: true
